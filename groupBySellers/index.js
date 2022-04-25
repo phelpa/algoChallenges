@@ -39,13 +39,22 @@ const orderTheArray = () => {
   ]
 
   //1
-  const newSales = salesTest.reduce((acc, item) => {
-    acc[item.sellerName] = (acc[item.sellerName] || 0) + item.revenue
+  const newSales = sales
+    .filter((item) => item.status === 'Confirmed')
+    .reduce((acc, item) => {
+      acc[item.sellerName] = (acc[item.sellerName] || 0) + item.revenue
+      return acc
+    }, {})
 
-    return acc
-  }, {})
+  //2
+  const sortedSales = Object.entries(newSales)
+    .sort((a, b) => b[1] - a[1])
+    .map((item) => ({
+      sellerName: item[0],
+      totalRevenue: item[1].toFixed(2),
+    }))
 
-  console.log(newSales)
+  console.log(sortedSales, 'sortedSales')
 }
 
 orderTheArray()
